@@ -5,6 +5,8 @@
 #include "tools/dict.h"
 #include "tools/char_list.h"
 
+
+
 char** generateAlphabet(int n) {
     int compteur = 0;
     char prefix[3] = "";
@@ -55,27 +57,33 @@ int main() {
     char** schools = generateAlphabet(n);
     char** scholars = generateNumbers(n);
 
+
     for (int i = 0; i < n; i++) {
         char** copy_scholars = copy_char_list(scholars,n);
         char** copy_schools = copy_char_list(schools,n);
         
         shuffle_list(copy_scholars,n);
         shuffle_list(copy_schools,n);
-
-        add_entry(scholar_pref, scholars[i], copy_schools, n);
-        add_entry(school_pref, schools[i], copy_scholars, n);
+        
+        add_entry(scholar_pref, scholars[i], make_string_list_value(copy_schools,n));
+        add_entry(school_pref, schools[i], make_string_list_value(copy_scholars,n));
 
         free_char_list(copy_scholars,n);
         free_char_list(copy_schools,n);
     }
 
-    print_dict(school_pref);
+    print_dict(school_pref,0);
     printf("\n");
-    print_dict(scholar_pref);
+    print_dict(scholar_pref,0);
 
     free_dict(school_pref);
     free_dict(scholar_pref);
+    
+    printf("OK dict free\n");
+    
     free_char_list(schools, n);
     free_char_list(scholars, n);
+
+    printf("OK all free\n");
     return 0;
 }
