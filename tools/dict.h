@@ -39,7 +39,7 @@ Value make_dict_value(Dictionary *subdict);
 Dictionary* create_dict(int capacity);
 void free_dict(Dictionary *dict);
 void add_entry(Dictionary *dict, const char *key, Value value);
-Entry get_entry(Dictionary *dict, const char *key);
+Entry* get_entry(Dictionary *dict, const char *key);
 void print_dict(Dictionary *dict, int indent);
 
 #endif

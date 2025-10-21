@@ -155,18 +155,18 @@ void add_entry(Dictionary *dict, const char *key, Value value) {
     dict->entries[dict->size].value = value;
     dict->size++;
 }
-Entry get_entry(Dictionary *dict, const char *key){
+Entry* get_entry(Dictionary *dict, const char *key){
     if (dict->size <= 0){
-        return;
+        return NULL;
     }
     for (int i = 0; i < dict->size; i++){
         Entry e = dict->entries[i];
         char* i_key = e.key;
         if (i_key == key){
-            return e;
+            return &e;
         }
     }
-    return;
+    return NULL;
 }
 
 void free_dict(Dictionary *dict){

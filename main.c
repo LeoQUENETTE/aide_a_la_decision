@@ -83,8 +83,8 @@ int main() {
 
     simple_algo(school_pref, scholar_pref);
 
-    Entry e = get_entry(school_pref, "a");
-    int pos = get_value_pos(&e,"1");
+    Entry* e = get_entry(school_pref, "a");
+    int pos = get_value_pos(e,"1");
     printf("%i\n",pos);
 
     free_dict(school_pref);
