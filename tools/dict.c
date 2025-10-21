@@ -69,7 +69,7 @@ void free_value(Value v) {
 Value make_string_value(const char *str) {
     Value v;
     v.type = VALUE_STRING;
-    v.data = strdup(str);
+    v.data = my_strdup(str);
     v.count = 1;
     return v;
 }
@@ -89,12 +89,43 @@ Value make_dict_value(Dictionary *subdict) {
     v.count = 0;
     return v;
 }
+
+char* my_strdup(const char* str) {
+    if (str == NULL) return NULL;
+    
+    size_t len = strlen(str) + 1;
+    char* copy = malloc(len);
+    if (copy != NULL) {
+        memcpy(copy, str, len);
+    }
+    return copy;
+}
 struct Entry {
     char *key;
     Value value;
 };
+int get_value_pos(Entry* e, char* wanted_char){
+    if (e == NULL || wanted_char == NULL){
+        printf("Empty or null entry\n");
+        return -1;
+    }
+    Value val = e->value;
+    if (val.type != VALUE_STRING_LIST){
+        printf("Value format uncorrect\n");
+        return -1;
+    }
+    for (int i = 0; i < val.count; i++ ){
+        char* c = &val.data[i];
+        if (c == wanted_char){
+            return i;
+        }
+    }
+    printf("Not found\n");
+    return -1;
 
-struct Dictionnary{
+}
+
+struct Dictionary{
     Entry *entries;
     int size;
     int capacity;
@@ -112,12 +143,30 @@ Dictionary* create_dict(int capacity) {
 void add_entry(Dictionary *dict, const char *key, Value value) {
     if (dict->size >= dict->capacity) {
         dict->capacity *= 2;
-        dict->entries = realloc(dict->entries, sizeof(Entry) * dict->capacity);
+        Entry *new_entries = realloc(dict->entries, sizeof(Entry) * dict->capacity);
+        if (!new_entries) {
+            fprintf(stderr, "Erreur: échec du realloc\n");
+            exit(1);
+        }
+        dict->entries = new_entries;
     }
 
-    dict->entries[dict->size].key = strdup(key);
+    dict->entries[dict->size].key = my_strdup(key);
     dict->entries[dict->size].value = value;
     dict->size++;
+}
+Entry get_entry(Dictionary *dict, const char *key){
+    if (dict->size <= 0){
+        return;
+    }
+    for (int i = 0; i < dict->size; i++){
+        Entry e = dict->entries[i];
+        char* i_key = e.key;
+        if (i_key == key){
+            return e;
+        }
+    }
+    return;
 }
 
 void free_dict(Dictionary *dict){
@@ -139,3 +188,4 @@ void print_dict(Dictionary *dict, int indent) {
         printf("\n");
     }
 }
+

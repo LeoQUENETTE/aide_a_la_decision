@@ -26,9 +26,12 @@ typedef struct {
     int capacity;
 } Dictionary;
 
+int get_value_pos(Entry* e, char* wanted_char);
+
 void print_value(Value v, int indent); 
 void print_indent(int indent);
 void free_value(Value v);
+char* my_strdup(const char* str);
 Value make_string_value(const char *str);
 Value make_string_list_value(char **list, int count);
 Value make_dict_value(Dictionary *subdict);
@@ -36,6 +39,7 @@ Value make_dict_value(Dictionary *subdict);
 Dictionary* create_dict(int capacity);
 void free_dict(Dictionary *dict);
 void add_entry(Dictionary *dict, const char *key, Value value);
+Entry get_entry(Dictionary *dict, const char *key);
 void print_dict(Dictionary *dict, int indent);
 
 #endif
