@@ -27,6 +27,8 @@ def classementSatisfaction(
     c_satisfactions : dict[str,float]= {}
     s_satif_total = 0
     c_satif_total = 0
+    moy_s = 0
+    moy_c = 0
     step = 1 / n
     
     classement : dict[str, any] = {}
@@ -57,14 +59,16 @@ def classementSatisfaction(
     for s, c in result.items():
         rank = candidate_ranks[c][s]
         dist =  (rank+1) - classement[c]
-        classement[c] = int((1 - step * dist) * 100)
+        classement[c] = int(1 - step * dist)
         
         rank = school_ranks[s][c]
         dist =  (rank+1) - classement[s]
-        classement[s] = int((1 - step * dist) * 100)
+        classement[s] = int(1 - step * dist)
     for i,v in classement.items():
         print(f"La satisfaction de {i} est de {v}%")
     return classement
+def avg_zero_to_one():
+    pass
 def naiveSatisaction(
     result : dict[str,str],
     n : int,
@@ -95,33 +99,23 @@ def weightedSatisfaction(result : dict[str,str],
     candidate_ranks : dict[str,dict[str,int]])->None:
     s_satisfactions : dict[str,float]= {}
     c_satisfactions : dict[str,float]= {}
+    step : float = 1 / n
+    max = 1.5 ** n 
     s_satif_total = 1
     c_satif_total = 1
-    step : float = 1 / n
     for s, c in result.items():
-        if school_ranks[s][c] < n//2:
-            s_satisfaction = 1 + step * (n//2 - school_ranks[s][c])
-        elif school_ranks[s][c] > n//2:
-            s_satisfaction = 1 - step * ((school_ranks[s][c]+ 1) - n//2)
-        else:
-            s_satisfaction = 1
-        s_satisfactions[s] = s_satisfaction
-        if candidate_ranks[c][s] < n//2:
-            c_satisfaction = 1 + step * (n//2 - candidate_ranks[c][s])
-        elif candidate_ranks[c][s] > n//2:
-            c_satisfaction = 1 - step * ((candidate_ranks[c][s] + 1 )- n//2)
-        else :
-            candidate_ranks[c][s] = 1
-        c_satisfactions[c] = c_satisfaction
-        s_satif_total *= s_satisfaction
-        c_satif_total *= c_satisfaction
+        s_satisfactions[s] = 1.5 - school_ranks[s][result[s]] * (1/(n-1))
+        c_satisfactions[c] = 1.5 - candidate_ranks[c][s] * (1/(n-1))
+        
+        s_satif_total *= s_satisfactions[s]
+        c_satif_total *= c_satisfactions[c]
     for key, value in sorted(s_satisfactions.items(), key=lambda item: item[1], reverse=True):
         print(f"Satisfaction de {key} : {"{:.2f}".format(value)}")
     print("")
     for key, value in sorted(c_satisfactions.items(), key=lambda item: item[1], reverse=True):
         print(f"Satisfaction de {key} : {"{:.2f}".format(value)}")
     print("")
-    print(f"Moyenne des satisfactions : \nEcoles : {"{:.2f}".format(s_satif_total)}\nEtudiants : {"{:.2f}".format(c_satif_total)}")
+    print(f"Moyenne des satisfactions : \nEcoles : {"{:.2f}".format((s_satif_total * 100)/ max)}%\nEtudiants : {"{:.2f}".format((c_satif_total*100) / max)}%")
 def addRandomValueFromList(target : dict[str,list[str]], src : list[str], s : int = 42) -> dict[str,list[str]]:
     seed(s)
     for i in target.keys():
@@ -166,7 +160,7 @@ def print_dict_str_list(dictionnary: dict):
         print("\n",end="")
 
 if __name__ == "__main__":
-    n : int = 10
+    n : int = 5
     s = 42
     alphabet = generateAlphabet(n)
     numbers = generateNumbers(n)
@@ -177,16 +171,16 @@ if __name__ == "__main__":
     school_dict = addRandomValueFromList(school_dict, numbers, s)
     candidate_dict = addRandomValueFromList(candidate_dict, alphabet, s)
     
-    school_dict = {
-        "a":["0","1","2"],
-        "b":["0","1","2"],
-        "c":["1","2","0"],
-    }
-    candidate_dict = {
-        "0":["a","b","c"],
-        "1":["a","b","c"],
-        "2":["b","c","a"],
-    }
+    # school_dict = {
+    #     "a":["0","1","2"],
+    #     "b":["0","1","2"],
+    #     "c":["1","2","0"],
+    # }
+    # candidate_dict = {
+    #     "0":["a","b","c"],
+    #     "1":["a","b","c"],
+    #     "2":["b","c","a"],
+    # }
     
     school_ranks = {
         school: {candidate: rank for rank, candidate in enumerate(candidates)}
@@ -206,10 +200,16 @@ if __name__ == "__main__":
     result = mariageStable(school_dict, candidate_dict, school_ranks)
     print_dict(result)
     
-    print("")
-    classementSatisfaction(result,n,school_ranks, candidate_ranks, 1)
-    print("")
-    naiveSatisaction(result,n,school_ranks, candidate_ranks)
+    # print("")
+    # print("CLASSEMENT")
+    # print("")
+    # classementSatisfaction(result,n,school_ranks, candidate_ranks, 0)
+    # print("")
+    # print("NAIVE")
+    # print("")
+    # naiveSatisaction(result,n,school_ranks, candidate_ranks)
+    # print("")
+    print("PONDERE")
     print("")
     weightedSatisfaction(result,n,school_ranks, candidate_ranks)
     
