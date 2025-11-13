@@ -1,5 +1,18 @@
-from math import floor, ceil, log2
+from math import floor, ceil
 from random import sample, seed
+
+def ecart_type():
+    pass
+    #TODO
+def mediane(
+    result : dict[str,str],
+    n : int,
+    school_ranking : dict[str, dict[str,int]],
+    candidate_ranking : dict[str,dict[str,int]]):
+    
+    
+    pass
+    #TODO
 def classementSatisfaction(
     result : dict[str,str],
     n : int,
@@ -50,9 +63,7 @@ def classementSatisfaction(
     for i,v in classement.items():
         print(f"La satisfaction de {i} est de {v}%")
     return classement
-def avg_zero_to_one():
-    pass
-def naiveSatisaction(
+def moyenne(
     result : dict[str,str],
     n : int,
     school_ranks : dict[str,dict[str,int]],
@@ -62,7 +73,7 @@ def naiveSatisaction(
     s_satif_total = 0
     c_satif_total = 0
     for s, c in result.items():
-        s_satisfaction = (n - school_ranks[s][c]) / n
+        s_satisfaction = (n - school_ranks[s][c]) / n - 1
         c_satisfaction = (n - candidate_ranks[c][s]) / n
         s_satisfactions[s] = s_satisfaction
         c_satisfactions[c] = c_satisfaction
@@ -76,7 +87,7 @@ def naiveSatisaction(
         print(f"Satisfaction de {key} : {"{:.2f}".format(value)}")
     print("")
     print(f"Moyenne des satisfactions : \nEcoles : {"{:.2f}".format((s_satif_total/n)*100)}%\nEtudiants : {"{:.2f}".format((c_satif_total/n)*100)}%")
-def weightedSatisfaction(result : dict[str,str],
+def echelle(result : dict[str,str],
     n : int,
     school_ranks : dict[str,dict[str,int]],
     candidate_ranks : dict[str,dict[str,int]])->None:
@@ -108,25 +119,3 @@ def weightedSatisfaction(result : dict[str,str],
     print("")
     print("Sans Logarithme")
     print(f"Moyenne des satisfactions : \nEcoles : {"{:.2f}".format((s_satif_total/  max) * 100)}%\nEtudiants : {"{:.2f}".format((c_satif_total / max)* 100) }%")
-def addRandomValueFromList(target : dict[str,list[str]], src : list[str], s : int = 42) -> dict[str,list[str]]:
-    seed(s)
-    for i in target.keys():
-        target[i] = sample(src, len(src))
-    return target
-def generateAlphabet(n: int) -> list[str]:
-    alphabet = 'abcdefghijklmnopqrstuvwxyz'
-    result = []
-    
-    length = 1
-    while len(result) < n:
-        from itertools import product
-        combinations = product(alphabet, repeat=length)
-        
-        for combo in combinations:
-            if len(result) >= n:
-                break
-            result.append(''.join(combo))
-        
-        length += 1
-    
-    return result

@@ -30,7 +30,28 @@ def mariageStable(pref_A : dict[str,list[str]], pref_B : dict[str,list[str]], sc
                 if (current_scholar != None):
                     found_school[current_scholar] = False
     return result
-
+def generateAlphabet(n: int) -> list[str]:
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    result = []
+    
+    length = 1
+    while len(result) < n:
+        from itertools import product
+        combinations = product(alphabet, repeat=length)
+        
+        for combo in combinations:
+            if len(result) >= n:
+                break
+            result.append(''.join(combo))
+        
+        length += 1
+    
+    return result
+def addRandomValueFromList(target : dict[str,list[str]], src : list[str], s : int = 42) -> dict[str,list[str]]:
+    seed(s)
+    for i in target.keys():
+        target[i] = sample(src, len(src))
+    return target
 
 def generateNumbers(n : int)->list[int]:
     new_list : list[int] = []
@@ -94,17 +115,20 @@ if __name__ == "__main__":
     result = mariageStable(school_dict, candidate_dict, school_ranks)
     print_dict(result)
     
+    print("")
+    print("MEDAINE")
+    mediane(result, n , school_ranks, candidate_ranks)
     # print("")
     # print("CLASSEMENT")
     # print("")
     # classementSatisfaction(result,n,school_ranks, candidate_ranks, 0)
     # print("")
-    # print("NAIVE")
+    # print("ECHELLE")
     # print("")
     # naiveSatisaction(result,n,school_ranks, candidate_ranks)
     # print("")
     print("PONDERE")
     print("")
-    weightedSatisfaction(result,n,school_ranks, candidate_ranks)
+    echelle(result,n,school_ranks, candidate_ranks)
     
     
