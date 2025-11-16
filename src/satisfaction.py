@@ -1,18 +1,6 @@
 from math import floor, ceil
 from random import sample, seed
 
-def ecart_type():
-    pass
-    #TODO
-def mediane(
-    result : dict[str,str],
-    n : int,
-    school_ranking : dict[str, dict[str,int]],
-    candidate_ranking : dict[str,dict[str,int]]):
-    
-    
-    pass
-    #TODO
 def classementSatisfaction(
     result : dict[str,str],
     n : int,

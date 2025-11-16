@@ -1,4 +1,4 @@
-from analyze import *
+from satisfaction import *
 def ln(x):
     EPS = 10**5
     NMAX = 100
@@ -116,8 +116,6 @@ if __name__ == "__main__":
     print_dict(result)
     
     print("")
-    print("MEDAINE")
-    mediane(result, n , school_ranks, candidate_ranks)
     # print("")
     # print("CLASSEMENT")
     # print("")
