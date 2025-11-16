@@ -1,55 +1,43 @@
 from math import floor, ceil
 
+
+'''
+Il n'est pas forcément pertinent de noter la satisfaction des élèves par rapport à la position des autres élèves dans le classement des établissements car les élèves ne sont pas sensé avoir conscience de ce classement,
+et donc leur satisfaction ne peut pas être impacté.
+'''
 def classementSatisfaction(
-    result : dict[str,str],
-    n : int,
-    school_ranks : dict[str,dict[str,int]],
-    candidate_ranks : dict[str,dict[str,int]],
+    y_rankings : dict[str,dict[str,int]],
+    satif_x : dict[str, str],
     optimist : bool = 0)->None:
-    s_satisfactions : dict[str,float]= {}
-    c_satisfactions : dict[str,float]= {}
-    s_satif_total = 0
-    c_satif_total = 0
-    moy_s = 0
-    moy_c = 0
-    step = 1 / n
-    
+    # Comptage du rang de l'élément
     classement : dict[str, any] = {}
-    for c_rank in school_ranks.values():
-        for c, rank in c_rank.items():
-            if classement.get(c) != None:
-                classement[c] += rank + 1
-            else:
-                classement[c] = rank + 1
-    for s_rank in candidate_ranks.values():  
-        for s, rank in s_rank.items():
+    for y_rank in y_rankings.values():  
+        for s, rank in y_rank.items():
             if classement.get(s) != None:
                 classement[s] += rank + 1
             else:
                 classement[s] = rank + 1
+    # Division par n, si optimiste valeur au dessus, sinon valeur en dessous 
     for i, v in classement.items():
-        float_value = v/ n
+        float_value = v/ len(satif_x)
         true_value = float_value
-        
         if optimist:
             true_value = floor(float_value)
         else:
             true_value = ceil(float_value)
-        
         classement[i] = int(true_value)
-        print(f"Le classement de {i} est de {classement[i]}")
-    print("")
-    for s, c in result.items():
-        rank = candidate_ranks[c][s]
-        dist =  (rank+1) - classement[c]
-        classement[c] = 1 - step * dist
-        
-        rank = school_ranks[s][c]
-        dist =  (rank+1) - classement[s]
-        classement[s] = 1 - step * dist
-    for i,v in classement.items():
-        print(f"La satisfaction de {i} est de {v}%")
-    return classement
+    above = 0
+    equal = 0
+    below = 0
+    for key, rank in classement.items():
+        diff =  rank - (satif_x[key]+1)
+        if diff == 0:
+            equal += 1
+        elif diff > 0:
+            above += 1
+        else:
+            below += 1
+    return above, equal, below, classement
 
 def echelle(result : dict[str,str],
     n : int,

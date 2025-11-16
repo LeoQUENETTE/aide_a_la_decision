@@ -22,8 +22,8 @@ def moyenne_geometrique(data : list[float]):
 def mediane(data):
     if data == None or len(data) == 0:
         return None
-    pos = len(data)//2
-    return ((1-data[pos])/len(data))
+    pos = len(data)//2 + 1
+    return 1-data[pos]
 def ecart_type(data):
     if data == None or len(data) == 0:
         return None

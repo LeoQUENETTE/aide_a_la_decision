@@ -2,6 +2,17 @@ from satisfaction import *
 from stats import *
 from mariage_stable import *
 
+def print_classement(x_ranks, y_satif, y_name : str):
+    above, equal, below, classement = classementSatisfaction(school_ranks, satif_by_candidate)
+    print(f"========== Statistiques {y_name} ==========")
+    print("")
+    for key, value in classement.items():
+        print(f"Le classement de {key} est de {value}")
+    print("")
+    print(f"Affectation supérieur au rang : {above}")
+    print(f"Affectation égale au rang : {equal}")
+    print(f"Affectation inférieur au rang : {below}")
+
 def print_dict(dictionnary: dict):
     for i in dictionnary.keys():
         print(f"{i} : {dictionnary[i]}")
@@ -41,13 +52,16 @@ if __name__ == "__main__":
         satif_by_candidate[value] = candidate_ranks[value][key]
        
     print("")
-    
     print(bien_etre(satif_by_candidate))
     print(bien_etre(satif_by_school))
     print(equite(satif_by_candidate, satif_by_school))
     print("")
     print("CLASSEMENT")
     print("")
-    classementSatisfaction(result,n,school_ranks, candidate_ranks, 0)
+    print_classement(school_ranks, satif_by_school, "Etudiants")
+    print("")
+    print_classement(candidate_ranks, satif_by_school, "Ecole")
+
+    
     
     
