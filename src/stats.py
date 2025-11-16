@@ -10,7 +10,7 @@ def moyenne_lineaire(data : list[float]):
     total = 0
     for nb in data:
         total += nb
-    return total / n 
+    return round(total / n,2)
 def moyenne_geometrique(data : list[float]):
     if data == None or len(data) == 0:
         return None
@@ -18,7 +18,7 @@ def moyenne_geometrique(data : list[float]):
     produit = 1
     for nb in data:
         produit *= nb
-    return produit ** (1/ n)
+    return round(produit ** (1/ n), 2)
 def mediane(data):
     if data == None or len(data) == 0:
         return None
@@ -32,7 +32,7 @@ def ecart_type(data):
     somme = 0
     for nb in data:
         somme += (nb - moy)**2
-    return somme / (n-1)
+    return round(somme / (n-1),2)
 def max(data):
     if data == None or len(data) == 0:
         return None

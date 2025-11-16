@@ -4,6 +4,8 @@ from math import floor, ceil
 '''
 Il n'est pas forcément pertinent de noter la satisfaction des élèves par rapport à la position des autres élèves dans le classement des établissements car les élèves ne sont pas sensé avoir conscience de ce classement,
 et donc leur satisfaction ne peut pas être impacté.
+Par conséquent nous avons décidé de mesurer le nombre d'élèves ayant eu des affectations supérieur à un rang.
+Le rang est calculé en fonction de la position de l'élément X dans la liste Y
 '''
 def classementSatisfaction(
     y_rankings : dict[str,dict[str,int]],
@@ -84,4 +86,4 @@ def bien_etre(
 def equite(satif_pop_x: dict[str:int], satif_pop_y: dict[str:int])->float:
     x = bien_etre(satif_pop_x)
     y = bien_etre(satif_pop_y)
-    return 1 - (x-y)
+    return round(1 - (x-y), 2)
