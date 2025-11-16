@@ -14,22 +14,11 @@ def mariageStable(pref_A : dict[str,list[str]], pref_B : dict[str,list[str]], sc
                 if (current_scholar != None):
                     found_school[current_scholar] = False
     return result
-def generateAlphabet(n: int) -> list[str]:
-    alphabet = 'abcdefghijklmnopqrstuvwxyz'
-    result = []
+def generateData(n: int, prec : str) -> list[str]:
+    result : list[str] = []
     
-    length = 1
     while len(result) < n:
-        from itertools import product
-        combinations = product(alphabet, repeat=length)
-        
-        for combo in combinations:
-            if len(result) >= n:
-                break
-            result.append(''.join(combo))
-        
-        length += 1
-    
+        result.append(prec+str(len(result)))
     return result
 def addRandomValueFromList(target : dict[str,list[str]], src : list[str], s : int = 42) -> dict[str,list[str]]:
     seed(s)
