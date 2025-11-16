@@ -42,27 +42,15 @@ def classementSatisfaction(
     for s, c in result.items():
         rank = candidate_ranks[c][s]
         dist =  (rank+1) - classement[c]
-        classement[c] = int(1 - step * dist)
+        classement[c] = 1 - step * dist
         
         rank = school_ranks[s][c]
         dist =  (rank+1) - classement[s]
-        classement[s] = int(1 - step * dist)
+        classement[s] = 1 - step * dist
     for i,v in classement.items():
         print(f"La satisfaction de {i} est de {v}%")
     return classement
-def bien_etre(
-    satif : dict[str:int])->float:
-    somme = 0
-    n = len(satif)
-    for key, value in satif.items():
-        bien_etre_k = ((n-1)-value)/(n-1)
-        somme+=bien_etre_k
-    bien_etre_total : float = (1/n)*somme
-    return bien_etre_total
-def equite(satif_pop_x: dict[str:int], satif_pop_y: dict[str:int])->float:
-    x = bien_etre(satif_pop_x)
-    y = bien_etre(satif_pop_y)
-    return 1 - (x-y)
+
 def echelle(result : dict[str,str],
     n : int,
     school_ranks : dict[str,dict[str,int]],
@@ -95,3 +83,17 @@ def echelle(result : dict[str,str],
     print("")
     print("Sans Logarithme")
     print(f"Moyenne des satisfactions : \nEcoles : {"{:.2f}".format((s_satif_total/  max) * 100)}%\nEtudiants : {"{:.2f}".format((c_satif_total / max)* 100) }%")
+    
+def bien_etre(
+    satif : dict[str:int])->float:
+    somme = 0
+    n = len(satif)
+    for key, value in satif.items():
+        bien_etre_k = ((n-1)-value)/(n-1)
+        somme+=bien_etre_k
+    bien_etre_total : float = (1/n)*somme
+    return bien_etre_total
+def equite(satif_pop_x: dict[str:int], satif_pop_y: dict[str:int])->float:
+    x = bien_etre(satif_pop_x)
+    y = bien_etre(satif_pop_y)
+    return 1 - (x-y)

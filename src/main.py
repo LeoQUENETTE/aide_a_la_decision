@@ -37,17 +37,17 @@ if __name__ == "__main__":
     satif_by_school = {}
     satif_by_candidate = {}
     for (key, value) in result.items():
-        satif_by_school[key] = school_ranks[str(key)][str(value)]
-        satif_by_candidate[value] = candidate_ranks[str(value)][str(key)]
+        satif_by_school[key] = school_ranks[key][value]
+        satif_by_candidate[value] = candidate_ranks[value][key]
        
     print("")
     
     print(bien_etre(satif_by_candidate))
     print(bien_etre(satif_by_school))
     print(equite(satif_by_candidate, satif_by_school))
-    # print("")
-    # print("CLASSEMENT")
-    # print("")
-    # classementSatisfaction(result,n,school_ranks, candidate_ranks, 0)
+    print("")
+    print("CLASSEMENT")
+    print("")
+    classementSatisfaction(result,n,school_ranks, candidate_ranks, 0)
     
     
