@@ -23,7 +23,7 @@ def mediane(data):
     if data == None or len(data) == 0:
         return None
     pos = len(data)//2
-    return data[pos]
+    return ((1-data[pos])/len(data))
 def ecart_type(data):
     if data == None or len(data) == 0:
         return None
