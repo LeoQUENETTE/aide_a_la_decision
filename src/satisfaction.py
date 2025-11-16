@@ -1,5 +1,4 @@
 from math import floor, ceil
-from random import sample, seed
 
 def classementSatisfaction(
     result : dict[str,str],
