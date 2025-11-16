@@ -47,3 +47,13 @@ def generateDict(n : int, keys : list[str]):
     for i in range(n):
         new_dict[keys[i]] = []
     return new_dict
+def calculate_rankings(school_dict : dict[str,str], candidate_dict : dict[str,str]):
+    school_ranks = {
+        school: {candidate: rank for rank, candidate in enumerate(candidates)}
+        for school, candidates in school_dict.items()
+    }
+    candidate_ranks = {
+        candidate: {school: rank for rank, school in enumerate(schools)}
+        for candidate, schools in candidate_dict.items()
+    }
+    return school_ranks, candidate_ranks

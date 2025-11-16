@@ -50,30 +50,19 @@ def classementSatisfaction(
     for i,v in classement.items():
         print(f"La satisfaction de {i} est de {v}%")
     return classement
-def moyenne(
-    result : dict[str,str],
-    n : int,
-    school_ranks : dict[str,dict[str,int]],
-    candidate_ranks : dict[str,dict[str,int]])->None:
-    s_satisfactions : dict[str,float]= {}
-    c_satisfactions : dict[str,float]= {}
-    s_satif_total = 0
-    c_satif_total = 0
-    for s, c in result.items():
-        s_satisfaction = (n - school_ranks[s][c]) / n - 1
-        c_satisfaction = (n - candidate_ranks[c][s]) / n
-        s_satisfactions[s] = s_satisfaction
-        c_satisfactions[c] = c_satisfaction
-        
-        s_satif_total += s_satisfaction
-        c_satif_total += c_satisfaction
-    for key, value in sorted(s_satisfactions.items(), key=lambda item: item[1], reverse=True):
-        print(f"Satisfaction de {key} : {"{:.2f}".format(value)}")
-    print("")
-    for key, value in sorted(c_satisfactions.items(), key=lambda item: item[1], reverse=True):
-        print(f"Satisfaction de {key} : {"{:.2f}".format(value)}")
-    print("")
-    print(f"Moyenne des satisfactions : \nEcoles : {"{:.2f}".format((s_satif_total/n)*100)}%\nEtudiants : {"{:.2f}".format((c_satif_total/n)*100)}%")
+def bien_etre(
+    satif : dict[str:int])->float:
+    somme = 0
+    n = len(satif)
+    for key, value in satif.items():
+        bien_etre_k = ((n-1)-value)/(n-1)
+        somme+=bien_etre_k
+    bien_etre_total : float = (1/n)*somme
+    return bien_etre_total
+def equite(satif_pop_x: dict[str:int], satif_pop_y: dict[str:int])->float:
+    x = bien_etre(satif_pop_x)
+    y = bien_etre(satif_pop_y)
+    return 1 - (x-y)
 def echelle(result : dict[str,str],
     n : int,
     school_ranks : dict[str,dict[str,int]],

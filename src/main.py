@@ -27,34 +27,40 @@ if __name__ == "__main__":
     
     school_dict = {
         "a":["1","0","2"],
-        "b":["0","1","2"],
-        "c":["1","2","0"],
+        "b":["2","1","0"],
+        "c":["0","2","1"],
     }
     candidate_dict = {
-        "0":["a","b","c"],
-        "1":["b","a","c"],
+        "0":["b","a","c"],
+        "1":["c","b","a"],
         "2":["a","c","b"],
     }
     
-    school_ranks = {
-        school: {candidate: rank for rank, candidate in enumerate(candidates)}
-        for school, candidates in school_dict.items()
-    }
-    candidate_ranks = {
-        candidate: {school: rank for rank, school in enumerate(schools)}
-        for candidate, schools in candidate_dict.items()
-    }
+    school_ranks, candidate_ranks = calculate_rankings(school_dict,candidate_dict)
     
     print_dict_str_list(candidate_ranks)
     print("")
     print_dict_str_list(school_ranks)
-    
     print("")
     
     result = mariageStable(school_dict, candidate_dict, school_ranks)
+    # result = {
+    #     "a":"0",
+    #     "b":"1",
+    #     "c":"2"
+    # }
     print_dict(result)
-    
+    satif_by_school = {}
+    satif_by_candidate = {}
+    for (key, value) in result.items():
+        satif_by_school[key] = school_ranks[str(key)][str(value)]
+        satif_by_candidate[value] = candidate_ranks[str(value)][str(key)]
+       
     print("")
+    
+    print(bien_etre(satif_by_candidate))
+    print(bien_etre(satif_by_school))
+    print(equite(satif_by_candidate, satif_by_school))
     # print("")
     # print("CLASSEMENT")
     # print("")
@@ -63,9 +69,9 @@ if __name__ == "__main__":
     # print("ECHELLE")
     # print("")
     # naiveSatisaction(result,n,school_ranks, candidate_ranks)
+    # # print("")
+    # print("PONDERE")
     # print("")
-    print("PONDERE")
-    print("")
-    echelle(result,n,school_ranks, candidate_ranks)
+    # echelle(result,n,school_ranks, candidate_ranks)
     
     
