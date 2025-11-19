@@ -1,18 +1,31 @@
 from random import sample, seed
-def mariageStable(pref_A : dict[str,list[str]], pref_B : dict[str,list[str]], school_ranks : dict[str,dict[str,int]])->dict[str,str]:  
-    found_school = {a : False for a in pref_B.keys()}
+def mariageStable(pref_A: dict[str,list[str]], pref_B: dict[str,list[str]], school_ranks: dict[str,dict[str,int]]) -> dict[str,str]:
+    # Initialisation : tous les candidats sont libres et aucune école n'est attribuée
+    free_candidates = list(pref_B.keys())
     result = {a: None for a in pref_A.keys()}
-    for pref_id in range(len(pref_B)):
-        for candidate in pref_B.keys():
-            if found_school.get(candidate):
-                continue
-            wanted_school = pref_B[candidate][pref_id]
-            current_scholar = result.get(wanted_school)
-            if current_scholar == None or school_ranks[wanted_school][current_scholar] > school_ranks[wanted_school][candidate]:
-                result[wanted_school] = candidate
-                found_school[candidate] = True
-                if (current_scholar != None):
-                    found_school[current_scholar] = False
+    
+    # Liste des propositions faites par chaque candidat
+    proposals_made = {candidate: 0 for candidate in pref_B.keys()}
+    
+    while free_candidates:
+        candidate = free_candidates[0]
+        if proposals_made[candidate] >= len(pref_B[candidate]):
+            free_candidates.pop(0)
+            continue
+        school = pref_B[candidate][proposals_made[candidate]]
+        proposals_made[candidate] += 1
+        
+        current_match = result[school]
+        if current_match is None:
+            result[school] = candidate
+            free_candidates.pop(0)
+        else:
+            # Si l'école préfère le nouveau candidat
+            if school_ranks[school][candidate] < school_ranks[school][current_match]:
+                result[school] = candidate
+                free_candidates.pop(0)
+                free_candidates.append(current_match)
+    
     return result
 def generateData(n: int, prec : str) -> list[str]:
     result : list[str] = []

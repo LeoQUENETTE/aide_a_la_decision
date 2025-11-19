@@ -27,6 +27,7 @@ def classementSatisfaction(
             true_value = floor(float_value)
         else:
             true_value = ceil(float_value)
+        true_value = round(float_value)
         classement[i] = int(true_value)
     above = 0
     equal = 0
@@ -74,8 +75,7 @@ def echelle(result : dict[str,str],
     print("Sans Logarithme")
     print(f"Moyenne des satisfactions : \nEcoles : {"{:.2f}".format((s_satif_total/  max) * 100)}%\nEtudiants : {"{:.2f}".format((c_satif_total / max)* 100) }%")
     
-def bien_etre(
-    satif : dict[str:int])->float:
+def moyenne(satif : dict[str:int])->float:
     somme = 0
     n = len(satif)
     for key, value in satif.items():
@@ -84,6 +84,6 @@ def bien_etre(
     bien_etre_total : float = (1/n)*somme
     return bien_etre_total
 def equite(satif_pop_x: dict[str:int], satif_pop_y: dict[str:int])->float:
-    x = bien_etre(satif_pop_x)
-    y = bien_etre(satif_pop_y)
+    x = moyenne(satif_pop_x)
+    y = moyenne(satif_pop_y)
     return round(1 - (x-y), 2)

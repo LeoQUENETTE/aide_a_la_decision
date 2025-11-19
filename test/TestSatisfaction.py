@@ -57,12 +57,12 @@ def unbalanced_distrib():
 class TestSatisfaction(unittest.TestCase):
     def test_bien_etre_to_zero_one(self):
         satif_by_school, satif_by_candidate = unbalanced_distrib()
-        self.assertEqual(bien_etre(satif_by_candidate),0,"La valeur devrait être à zéro")
-        self.assertEqual(bien_etre(satif_by_school),1,"La valeur devrait être à un")
+        self.assertEqual(moyenne(satif_by_candidate),0,"La valeur devrait être à zéro")
+        self.assertEqual(moyenne(satif_by_school),1,"La valeur devrait être à un")
     def test_bien_etre_to_half_one(self):
         satif_by_school, satif_by_candidate = balanced_distrib()
-        self.assertEqual(bien_etre(satif_by_school),0.5, "La valeur devrait être à 0.5")
-        self.assertEqual(bien_etre(satif_by_candidate),0.5, "La valeur devrait être à 0.5")
+        self.assertEqual(moyenne(satif_by_school),0.5, "La valeur devrait être à 0.5")
+        self.assertEqual(moyenne(satif_by_candidate),0.5, "La valeur devrait être à 0.5")
     def test_equite_zero(self):
         x_satif, y_satif = unbalanced_distrib()
         self.assertEqual(equite(x_satif,y_satif), 0, "L'equite devrait être à zéro")
