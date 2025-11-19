@@ -27,7 +27,7 @@ def print_dict_str_list(dictionnary: dict):
 if __name__ == "__main__":
     n : int = 3
     s = 42
-    alphabet = generateData(n,"tab")
+    alphabet = generateData(n,"etab")
     numbers = generateData(n, "etu")
     
     school_dict = generateDict(len(alphabet),alphabet)
