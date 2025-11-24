@@ -31,8 +31,8 @@ def print_dict_str_list(dictionnary: dict):
         print("\n",end="")
 
 if __name__ == "__main__":
-    n : int = 10
-    s = 42
+    n : int = 3
+    s = 46
     print("")
     alphabet = generateData(n,"etab")
     numbers = generateData(n, "cand")
@@ -43,7 +43,24 @@ if __name__ == "__main__":
     school_dict = addRandomValueFromList(school_dict, numbers, s)
     candidate_dict = addRandomValueFromList(candidate_dict, alphabet, s*2)
     
+    # school_dict = {
+    #     "a":[3,1,5,4,2],
+    #     "b":[2,1,5,4,3],
+    #     "c":[5,2,3,4,1],
+    #     "d":[2,1,5,4,3],
+    #     "e":[3,2,5,4,1]
+    # }
+    
+    # candidate_dict = {
+    #     1 : ["b","a","c","e","d"],
+    #     2 : ["a","c","b","e","d"],
+    #     3 : ["c","a","e","b","d"],
+    #     4 : ["c","b","e","d","a"],
+    #     5 : ["a","b","c","d","e"]
+    # }    
     school_ranks, candidate_ranks = calculate_rankings(school_dict,candidate_dict)
+    
+    
     
     print("========== PREFERENCES ==========")
     print("")
@@ -103,6 +120,34 @@ if __name__ == "__main__":
     print(f"Candidats : {ecart_type(list_satif_y)}")
     print(f"Ecole : {ecart_type(list_satif_x)}")
     print("")
+    print("========== Cardinalité Ecole ========")
+    print("")
+    cardinalite = {}
+    for i in range(n):
+        cpt = 0
+        for e in list_satif_x:
+            if e == i:
+                cpt += 1
+        if cpt != 0:
+            cardinalite[i+1] = cpt
+    for k,v in cardinalite.items():
+        print(f"{k} : {v}")
+    print("")
+    print("========== Cardinalité Etudiant ========")
+    print("")
+    cardinalite = {}
+    for i in range(n):
+        cpt = 0
+        for e in list_satif_y:
+            if e == i:
+                cpt += 1
+        if cpt != 0:
+            cardinalite[i+1] = cpt
+    for k,v in cardinalite.items():
+        print(f"{k} : {v}")
+    
+    
+    
     #TODO revoir le min max pour voir comment l'utiliser et pourquoi
     # print("========== Max - Min ==========")
     # print("")
