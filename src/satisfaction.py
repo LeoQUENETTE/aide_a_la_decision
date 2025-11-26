@@ -50,7 +50,6 @@ def echelle(result : dict[str,str],
     s_satisfactions : dict[str,float]= {}
     c_satisfactions : dict[str,float]= {}
     step : float = 1 / n
-    min_value = step * (n/2)
     max_value= 1.5
     max_exp = max_value ** n 
     s_satif_total = 1
@@ -61,12 +60,11 @@ def echelle(result : dict[str,str],
         
         s_satif_total *= s_satisfactions[s]
         c_satif_total *= c_satisfactions[c]
-    for key, value in sorted(s_satisfactions.items(), key=lambda item: item[1], reverse=True):
-        print(f"Satisfaction de {key} : {"{:.2f}".format(value)}")
-    print("")
     for key, value in sorted(c_satisfactions.items(), key=lambda item: item[1], reverse=True):
         print(f"Satisfaction de {key} : {"{:.2f}".format(value)}")
-    print(f"Maximum : {max}")
+    print("")
+    for key, value in sorted(s_satisfactions.items(), key=lambda item: item[1], reverse=True):
+        print(f"Satisfaction de {key} : {"{:.2f}".format(value)}")
     print("")
     print("Avec Logarithme")
     satisfactions_normalisees_s = [(sat - 0.5) / (1.5 - 0.5) for sat in s_satisfactions.values()]
@@ -77,10 +75,10 @@ def echelle(result : dict[str,str],
     sum_log_c = sum(math.log(max(c, 0.01)) for c in satisfactions_normalisees_c)
     moy_log_s = "{:.2f}".format(math.exp(sum_log_s / n) * 100)
     moy_log_c = "{:.2f}".format(math.exp(sum_log_c / n) * 100)
-    print(f"Moyenne des satisfactions : \nEcoles : {moy_log_s}%\nEtudiants : {moy_log_c }%")
+    print(f"Moyenne des satisfactions : \nEtudiants : {moy_log_c }%\nEcoles : {moy_log_s}%")
     print("")
     print("Sans Logarithme")
-    print(f"Moyenne des satisfactions : \nEcoles : {"{:.2f}".format((s_satif_total/  max_exp) * 100)}%\nEtudiants : {"{:.2f}".format((c_satif_total / max_exp)* 100) }%")
+    print(f"Moyenne des satisfactions : \nEtudiants : {"{:.2f}".format((c_satif_total / max_exp)* 100) }%\nEcoles : {"{:.2f}".format((s_satif_total/  max_exp) * 100)}%")
     
 def moyenne(satif : dict[str:int])->float:
     somme = 0
