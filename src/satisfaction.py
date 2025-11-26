@@ -1,4 +1,5 @@
 from math import floor, ceil
+import math
 
 
 '''
@@ -51,7 +52,7 @@ def echelle(result : dict[str,str],
     step : float = 1 / n
     min_value = step * (n/2)
     max_value= 1.5
-    max = max_value ** n 
+    max_exp = max_value ** n 
     s_satif_total = 1
     c_satif_total = 1
     for s, c in result.items():
@@ -68,12 +69,18 @@ def echelle(result : dict[str,str],
     print(f"Maximum : {max}")
     print("")
     print("Avec Logarithme")
-    moy_log_s =  (s_satif_total ** (1/n) - min_value /  (max_value - min_value))
-    moy_log_c =  (c_satif_total ** (1/n) - min_value /  (max_value - min_value))
-    print(f"Moyenne des satisfactions : \nEcoles : {"{:.2f}".format(moy_log_s * 100)}%\nEtudiants : {"{:.2f}".format(moy_log_c* 100) }%")
+    satisfactions_normalisees_s = [(sat - 0.5) / (1.5 - 0.5) for sat in s_satisfactions.values()]
+    satisfactions_normalisees_c = [(sat - 0.5) / (1.5 - 0.5) for sat in c_satisfactions.values()]
+
+    # Moyenne géométrique des valeurs normalisées
+    sum_log_s = sum(math.log(max(s, 0.01)) for s in satisfactions_normalisees_s)
+    sum_log_c = sum(math.log(max(c, 0.01)) for c in satisfactions_normalisees_c)
+    moy_log_s = "{:2f}".format(math.exp(sum_log_s / n))
+    moy_log_c = "{:2f}".format(math.exp(sum_log_c / n))
+    print(f"Moyenne des satisfactions : \nEcoles : {moy_log_s * 100}%\nEtudiants : {moy_log_c* 100 }%")
     print("")
     print("Sans Logarithme")
-    print(f"Moyenne des satisfactions : \nEcoles : {"{:.2f}".format((s_satif_total/  max) * 100)}%\nEtudiants : {"{:.2f}".format((c_satif_total / max)* 100) }%")
+    print(f"Moyenne des satisfactions : \nEcoles : {"{:.2f}".format((s_satif_total/  max_exp) * 100)}%\nEtudiants : {"{:.2f}".format((c_satif_total / max_exp)* 100) }%")
     
 def moyenne(satif : dict[str:int])->float:
     somme = 0
