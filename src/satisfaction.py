@@ -75,9 +75,9 @@ def echelle(result : dict[str,str],
     # Moyenne géométrique des valeurs normalisées
     sum_log_s = sum(math.log(max(s, 0.01)) for s in satisfactions_normalisees_s)
     sum_log_c = sum(math.log(max(c, 0.01)) for c in satisfactions_normalisees_c)
-    moy_log_s = "{:2f}".format(math.exp(sum_log_s / n))
-    moy_log_c = "{:2f}".format(math.exp(sum_log_c / n))
-    print(f"Moyenne des satisfactions : \nEcoles : {moy_log_s * 100}%\nEtudiants : {moy_log_c* 100 }%")
+    moy_log_s = "{:.2f}".format(math.exp(sum_log_s / n) * 100)
+    moy_log_c = "{:.2f}".format(math.exp(sum_log_c / n) * 100)
+    print(f"Moyenne des satisfactions : \nEcoles : {moy_log_s}%\nEtudiants : {moy_log_c }%")
     print("")
     print("Sans Logarithme")
     print(f"Moyenne des satisfactions : \nEcoles : {"{:.2f}".format((s_satif_total/  max_exp) * 100)}%\nEtudiants : {"{:.2f}".format((c_satif_total / max_exp)* 100) }%")
